@@ -22,4 +22,4 @@ Of course (that's why it's out here) - but I can't say I know the future of it a
 
 # how do I get it?
 
-Currently npm install via the git repo.
+Currently npm install via the [git repo](https://github.com/togglejs/toggle).
