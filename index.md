@@ -2,7 +2,7 @@
 ---
 
 
-# Toggle
+# [Toggle](https://github.com/togglejs/toggle)
 
 ## What is it?
 
@@ -19,3 +19,7 @@ I wrote a series on how to migrate from Blogspot to Octopres and then struggled 
 # Can I use it?
 
 Of course (that's why it's out here) - but I can't say I know the future of it at this point. I will probably hack on it once in a while. Free to start up a [converstaion in the isssues](https://github.com/togglejs/toggle/issues).
+
+# how do I get it?
+
+Currently npm install via the git repo.
