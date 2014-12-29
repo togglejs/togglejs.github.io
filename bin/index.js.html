@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css">
     <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css">
     <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/docs.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.min.css">
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.1.1/gh-fork-ribbon.ie.min.css">
     <style>
       body > .navbar .brand {
         float:left;
@@ -38,6 +40,11 @@
         border-top-left-radius: 6px;
       }
       
+      .github-fork-ribbon-wrapper.right .github-fork-ribbon {
+        top: 41px;
+        right: -45px;
+      }
+      
       code[class*="language-"],pre[class*="language-"]{color:black;text-shadow:0 1px white;font-family:Consolas,Monaco,'Andale Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*="language-"]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*="language-"],pre[class*="language-"]{background:#f5f2f0}:not(pre)>code[class*="language-"]{padding:.1em;border-radius:.3em}.token.comment,.token.prolog,.token.doctype,.token.cdata{color:slategray}.token.punctuation{color:#999}.namespace{opacity:.7}.token.property,.token.tag,.token.boolean,.token.number{color:#905}.token.selector,.token.attr-name,.token.string{color:#690}.token.operator,.token.entity,.token.url,.language-css .token.string,.style .token.string{color:#a67f59;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.regex,.token.important{color:#e90}.token.important{font-weight:bold}.token.entity{cursor:help}
       div.description {margin: 14px 0; padding-top: 14px; border-bottom:1px solid #eee; }
       .tags {}
@@ -52,6 +59,9 @@
     </style>
   </head>
   <body data-spy="scroll" data-target=".scrollspy">
+    <div class="github-fork-ribbon-wrapper right">
+      <div class="github-fork-ribbon"><a href="https://github.com/togglejs">Fork Me</a></div>
+    </div>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-inner">
         <div class="container"><a class="brand">Tog/ToggleJS</a>
@@ -79,7 +89,6 @@
             <li class="active"><a href="../bin/index.js.html">bin/index.js</a></li>
             <li><a href="../bin/util/reportError.js.html">bin/util/reportError.js</a></li>
             <li><a href="../bin/util/sampleCommand.js.html">bin/util/sampleCommand.js</a></li>
-            <li><a href="../coverage/lcov-report/prettify.js.html">coverage/lcov-report/prettify.js</a></li>
             <li><a href="../gulpfile.js.html">gulpfile.js</a></li>
             <li><a href="../lib/App/Paginator.js.html">lib/App/Paginator.js</a></li>
             <li><a href="../lib/App/Site.js.html">lib/App/Site.js</a></li>
