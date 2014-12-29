@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" charset="utf-8">
+    <title>toggle</title>
+    <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/bootstrap-responsive.css">
+    <link rel="stylesheet" href="http://getbootstrap.com/2.3.2/assets/css/docs.css">
+    <style>
+      body > .navbar .brand {
+        float:left;
+        text-shadow: rgba(255, 255, 255, 0.0980392) 0px 1px 0px, rgba(255, 255, 255, 0.4) 0px 0px 30px;
+        color: white;
+        margin-left:0px;
+        font-weight:normal;
+      }
+      
+      .bs-docs-sidenav.affix {
+        box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.5);
+        z-index: 10;
+      }
+      
+      .bs-docs-sidenav i{
+        width: 8px;
+        height: 8px;
+        padding: 0px;
+        margin: 0px;
+        display: inline-block;
+        margin-right:0.5em;
+      }
+      
+      .bs-docs-sidenav > li > a {
+          word-wrap: break-word;
+      }
+      
+      .bs-docs-sidenav > li:first-child > a {
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+      }
+      
+      code[class*="language-"],pre[class*="language-"]{color:black;text-shadow:0 1px white;font-family:Consolas,Monaco,'Andale Mono',monospace;direction:ltr;text-align:left;white-space:pre;word-spacing:normal;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*="language-"]{padding:1em;margin:.5em 0;overflow:auto}:not(pre)>code[class*="language-"],pre[class*="language-"]{background:#f5f2f0}:not(pre)>code[class*="language-"]{padding:.1em;border-radius:.3em}.token.comment,.token.prolog,.token.doctype,.token.cdata{color:slategray}.token.punctuation{color:#999}.namespace{opacity:.7}.token.property,.token.tag,.token.boolean,.token.number{color:#905}.token.selector,.token.attr-name,.token.string{color:#690}.token.operator,.token.entity,.token.url,.language-css .token.string,.style .token.string{color:#a67f59;background:hsla(0,0%,100%,.5)}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.regex,.token.important{color:#e90}.token.important{font-weight:bold}.token.entity{cursor:help}
+      div.description {margin: 14px 0; padding-top: 14px; border-bottom:1px solid #eee; }
+      .tags {}
+      .ctx-type {
+        display:inline-block;
+        margin-right:0.5em;
+        //- float:right; margin-top:8px
+      }
+      
+      footer iframe{vertical-align:middle;}
+      
+    </style>
+  </head>
+  <body data-spy="scroll" data-target=".scrollspy">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container"><a class="brand">Tog/ToggleJS</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav pull-right sponsored"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <header id="overview" class="jumbotron subhead">
+      <div class="container">
+        <h1>toggle</h1>
+        <p class="lead"></p>
+      </div>
+    </header>
+    <div class="container">
+      <div class="row">
+        <div class="span3 bs-docs-sidebar">
+          <ul class="nav nav-list bs-docs-sidenav affix-top">
+            <li><a href="../../index.html">Main</a></li>
+            <li><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
+            <li><a href="../../bin/commands/lint.js.html">bin/commands/lint.js</a></li>
+            <li><a href="../../bin/commands/newToggleCommand.js.html">bin/commands/newToggleCommand.js</a></li>
+            <li><a href="../../bin/commands/post.js.html">bin/commands/post.js</a></li>
+            <li><a href="../../bin/index.js.html">bin/index.js</a></li>
+            <li><a href="../../bin/util/reportError.js.html">bin/util/reportError.js</a></li>
+            <li><a href="../../bin/util/sampleCommand.js.html">bin/util/sampleCommand.js</a></li>
+            <li><a href="../../coverage/lcov-report/prettify.js.html">coverage/lcov-report/prettify.js</a></li>
+            <li><a href="../../gulpfile.js.html">gulpfile.js</a></li>
+            <li><a href="../../lib/App/Paginator.js.html">lib/App/Paginator.js</a></li>
+            <li class="active"><a href="../../lib/App/Site.js.html">lib/App/Site.js</a></li>
+            <li><a href="../../lib/plugins/alias.js.html">lib/plugins/alias.js</a></li>
+            <li><a href="../../lib/plugins/description.js.html">lib/plugins/description.js</a></li>
+            <li><a href="../../lib/plugins/gist.js.html">lib/plugins/gist.js</a></li>
+            <li><a href="../../lib/plugins/handlebars.js.html">lib/plugins/handlebars.js</a></li>
+            <li><a href="../../lib/plugins/liquid.js.html">lib/plugins/liquid.js</a></li>
+            <li><a href="../../lib/plugins/loadHandlebarTemplate.js.html">lib/plugins/loadHandlebarTemplate.js</a></li>
+            <li><a href="../../lib/plugins/loadHandlebarTheme.js.html">lib/plugins/loadHandlebarTheme.js</a></li>
+            <li><a href="../../lib/plugins/renderSeries.js.html">lib/plugins/renderSeries.js</a></li>
+            <li><a href="../../lib/plugins/singlePageSeries.js.html">lib/plugins/singlePageSeries.js</a></li>
+            <li><a href="../../lib/plugins/togErrors.js.html">lib/plugins/togErrors.js</a></li>
+            <li><a href="../../lib/tog.js.html">lib/tog.js</a></li>
+            <li><a href="../../lib/util/joinUrl.js.html">lib/util/joinUrl.js</a></li>
+            <li><a href="../../lib/util/log.js.html">lib/util/log.js</a></li>
+            <li><a href="../../lib/util/urlPath.js.html">lib/util/urlPath.js</a></li>
+            <li><a href="../../lib/util/wordizeSpecialChars.js.html">lib/util/wordizeSpecialChars.js</a></li>
+          </ul>
+          <div class="scrollspy">
+            <ul class="nav nav-list bs-docs-sidenav affix-top">
+            </ul>
+          </div>
+        </div>
+        <div class="span9">
+          <div class="description"> </div>
+          <pre><code class="language-javascript">'use strict';
+var _ = require('lodash');
+var uuid = require('node-uuid');
+var joinUrl = require('../util/joinUrl');
+var wordizeSpecialChars = require('../util/wordizeSpecialChars');
+var moment = require('moment');
+
+var Paginator = require('./Paginator');
+
+module.exports = function (opts) {
+
+  var postId = 0;
+
+  var defaults = {
+    siteTitle: '&lt;TODO: place the name of your site here&gt;',
+    blogSlugFormat: '/:year/:month/:title/',
+    categoriesSlugFormat: '/blog/categories/{category}/',
+    root_url: 'http://example.com',
+    author: {
+      name: '(TODO put your name ex: Bugs Bunny)',
+      email: '', //optional email
+      link: '', // optional
+    },
+    year: new Date().getFullYear().toString(),
+    titlecase: false,
+    assets: '',
+    page_meta: true,
+
+    showUnPublished: false,
+
+    pagination: {
+      size: 10,
+    },
+
+    subscribe_email: '',
+
+    simple_search: 'https://www.google.com/search',
+
+    sidebar_collapse: false, // TODO: test this.
+    sidebar: true,
+
+    recentPostsConfig: {
+      show: true,
+      showCount: 7
+    },
+
+    github: {
+      username: '',
+      repoCount: 5,
+      skipForks: true,
+      showProfileLink: false,
+    },
+
+    twitter: {
+      username: '',
+      widgetId: '',
+      tweetButton: false,
+      followButton: false,
+    },
+
+    facebook: {
+      likeButton: false,
+      appId: '',
+    },
+
+    google: {
+      username: '',
+      plusOneButton: false,
+      plusOneSize: 'medium',
+
+      analyticsTrackingId: '',
+    },
+
+    disqus: {
+      show: true,
+      shortName: '',
+    },
+
+    pages: [],
+    seriesList: {},
+
+    addFile: function (post) {
+      ++postId;
+
+      // TODO:
+      // guard against someone calling this with duplicate files (from gulp selector selectors)...
+      // (I did it while building this and cauzed some crazy bugs).
+
+      if (post.layout === 'none') {
+        return _.create(site, post);
+      }
+
+      if (post.layout === 'page' || post.layout === 'default') {
+        post = new Page(this, post);
+        this.pages.push(post);
+      } else {
+        post = new Post(this, post);
+        this.addPost(post);
+      }
+
+      post.___postId = postId;
+
+      if (post.isSeries &amp;&amp; post.isSeries()) {
+
+        var series = this.seriesList[post.seriesId];
+        if (!series) {
+          series = new Series(post.seriesAbout);
+          this.seriesList[post.seriesId] = series;
+        }
+
+        series.about = series.about || post.seriesAbout;
+        post.series = series;
+
+        if (series.posts.filter(function (p) { return p.seriesTitle === post.seriesTitle; }).length) {
+          console.log('File:', post);
+          throw 'Cannot add post duplicate series post - check your grunt configuration.';
+        }
+
+        //console.log('pushing:', post.seriesTitle, post.getSiteId());
+        series.posts.push(post);
+
+        ++series.totalCount;
+        if (post.published === true) {
+          ++series.publishedCount;
+        }
+
+        //console.log({
+        //  'SERIES: ': post.seriesId,
+        //  'TITLE: ': post.title,
+        //})
+      }
+      return post;
+    },
+    getSiteId: function () {
+      return this.siteId;
+    },
+    addPost: function (post) {
+      if (post) {
+        this._posts.push(post);
+      }
+    },
+    filterPosts: function (posts) {
+
+      var filtered;
+
+      if (this.showUnPublished) {
+        filtered = posts;
+      } else {
+        filtered = posts.filter(function (post) {
+          // only exclude posts that are explicitly 'published: false'
+          return !(post.published === false); // jshint ignore:line
+        });
+      }
+
+      return _.sortBy(filtered, _.property('date')).reverse();
+    }
+  };
+
+  var Site = function () {
+    this.siteId = uuid.v4();
+    this._posts = [];
+  };
+  Site.prototype = _.merge(defaults, opts);
+
+  // TODO: recall what enumerable/configurable do...
+  Object.defineProperty(Site.prototype, 'recentPosts', {
+    get: function () {
+      return _.take(this.posts, this.recentPostsConfig.showCount);
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Site.prototype, 'postsGroupedByYear', {
+    get: function () {
+      var posts = {};
+
+      this.posts.forEach(function (post) {
+        if (!post.date) {
+          console.log(post);
+          throw 'post missing date property';
+        }
+        var year = post.date.year();
+        var obj = posts[year];
+        if (!obj){
+          obj = posts[year] = [];
+        }
+
+        obj.push(post);
+      });
+
+      return Object.keys(posts).sort().reverse().map(function (key) {
+        return {
+          year: key,
+          posts: this.filterPosts(posts[key])
+        };
+      }.bind(this));
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Site.prototype.getCategories = function () {
+    var categories = {};
+    var that = this;
+
+    // this is funky
+    // but we're returning a collection of categories (that have a collection of categoryPosts) (cat)
+    // where each category
+
+    this.posts.forEach(function (post) {
+      (post.categories || []).forEach(function (category) {
+
+        var key = category.name.toLowerCase();
+        var cat = categories[key];
+        if (cat === undefined) {
+          cat = categories[key] = _.create(that, {
+            name: category.name,
+            file: category.file
+        });
+          cat.categoryPosts = [];
+        }
+
+        cat.categoryPosts.push(post);
+
+        // order the posts by date
+        cat.categoryPosts = that.filterPosts(cat.categoryPosts);
+      });
+    });
+
+    var cats = Object.keys(categories).map(function (key) {
+      return categories[key];
+    });
+    cats.paginator = new Paginator(that, cats);
+    return _.sortBy(cats, 'name');
+  };
+
+  //// TODO: recall what enumerable/configurable do...
+  Object.defineProperty(Site.prototype, 'posts', {
+    get: function () {
+      return this.filterPosts(this._posts);
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Site.prototype, 'fullUrl', {
+    get: function () {
+      var result = joinUrl(this.site.url, this.url);
+      return result;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Site.prototype, 'date', {
+    get: function () {
+
+      if (this._date) {
+
+        var md = moment(this._date);
+
+        if (md.isValid()) {
+          return md;
+        } else {
+          console.log('this._date could not be parsed by momentjs date[' + this._date + '] for[' + this.title + ']');
+          return null;
+        }
+      } else {
+        //console.log('this._date is undefined for [' + this.title + ']');
+        return null;
+      }
+
+    },
+    set: function (value) {
+      this._date = value;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  var Post = function (site, opts) {
+    if (!site) {
+      throw 'first parameter {site} missing (required)';
+    }
+
+    var Post = function () { };
+
+    Post.prototype = _.create(site, {
+      index: false,
+      comments: true,
+      titlecase: false,
+      page_header: true,
+      page_meta: true,
+      sharing: true
+    });
+
+    Object.defineProperty(Post.prototype, 'isPublished', {
+      get: function () {
+        // detect explicit 'published===false' - all others are true (even undefined/null)
+        return !(this.published === false); //jshint ignore:line
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Post.prototype.isSeries = function () {
+      return !!this.seriesId;
+    };
+    ////// TODO: recall what enumerable/configurable do...
+    //Object.defineProperty(Post.prototype, 'isSeries', {
+    //  get: function () {
+    //    return this._seriesId
+    //  },
+    //  set: function (value) { this._seriesId = (value || '').trim(); },
+    //  enumerable: true,
+    //  configurable: true
+    //});
+
+    //// TODO: recall what enumerable/configurable do...
+    Object.defineProperty(Post.prototype, 'seriesId', {
+      get: function () {
+        return this._seriesId;
+      },
+      set: function (value) { this._seriesId = (value || '').trim(); },
+      enumerable: true,
+      configurable: true
+    });
+
+    //// TODO: recall what enumerable/configurable do...
+    Object.defineProperty(Post.prototype, 'seriesIndex', {
+      get: function () {
+        if (this.series) {
+          return this.series.getPostIndex(this) + 1;
+        }
+        return null;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    // TODO: recall what enumerable/configurable do...
+    Object.defineProperty(Post.prototype, 'hasCategories', {
+      get: function () {
+        return this.categories &amp;&amp; this.categories.length;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Post.prototype, 'showComments', {
+      get: function () {
+
+        if (this.comments === undefined) {
+          return true;
+        }
+        return !!this.comments;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Post.prototype, 'categories', {
+      get: function () {
+        return this._categories || [];
+      },
+      set: function (values) {
+        if (Array.isArray(values)) {
+
+          var slugFormat = this.categoriesSlugFormat;
+
+          if (!slugFormat) {
+            throw 'site.categorySlugFormat is not defined';
+          }
+
+          this._categories = values.map(function (item) {
+
+            var safeCategoryName = wordizeSpecialChars(item);
+
+            return {
+              name: item,
+              url: encodeURI(slugFormat.replace('{category}', safeCategoryName)).toLowerCase(),
+              file: slugFormat.replace('{category}', safeCategoryName).toLowerCase()
+            };
+          }.bind(this));
+        } else {
+          // we can ignore null/undefined - but warn with an error for other objects?
+          if (values !== null &amp;&amp; values !== undefined) {
+            console.error('ERROR: categories value [' + JSON.stringify(values) + '] was not an array. Categories expects an array of values.');
+          }
+        }
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Post.prototype, 'previous', {
+      get: function () {
+        var index = (this.posts.indexOf(this));
+        ++index;
+        var previousPost = this.posts[index];
+        return previousPost;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Post.prototype, 'next', {
+      get: function () {
+        var index = (this.posts.indexOf(this));
+        --index;
+        var nextPost = this.posts[index];
+        return nextPost;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Post.prototype, 'title', {
+      get: function () {
+        if (this.isSeries()) {
+
+          //console.log('seriesList:', this.seriesList);
+          //console.log('seriesId:', this.seriesId);
+
+          //console.log((new Error()).stack);
+          var series = this.seriesList[this.seriesId];
+          if (!series) {
+            console.log(this.seriesList);
+            throw 'cannot find series object with seriesId[' + this.seriesId + ']';
+          }
+          return series.getTitle(this);
+        }
+        return this._title;
+      },
+      set: function (value) {
+        this._title = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    return _.create(Post.prototype, opts);
+  };
+
+  var Page = function (site, opts) {
+    if (!site) {
+      throw 'first parameter {site} missing (required)';
+    }
+
+    var Page = function () { };
+
+    Page.prototype = _.create(site, {
+      index: true,
+      comments: false,
+      titlecase: false,
+      page_header: true,
+      page_meta: true,
+
+      disqus: {
+        show: false,
+      }
+    });
+
+    Object.defineProperty(Page.prototype, 'date', {
+      get: function () {
+        return this._date &amp;&amp; moment(this._date);
+      },
+      //set: function (value) {
+      //  var parsedDate = moment(value);
+      //  if (parsedDate.isValid()) {
+      //    this._date = parsedDate;
+      //  } else {
+      //    console.error('INVALID Date: ' + value);
+      //    // date not necessary for a page...
+      //  }
+      //},
+      enumerable: true,
+      configurable: true
+    });
+
+    Object.defineProperty(Page.prototype, 'title', {
+      get: function () {
+        return this._title;
+      },
+      set: function (value) {
+        this._title = value;
+      },
+      enumerable: true,
+      configurable: true
+    });
+
+    var result = _.create(Page.prototype, opts);
+    return result;
+  };
+
+  var Series = function (about) {
+    this.posts = [];
+    this.about = about;
+    this.totalCount = 0;
+    this.publishedCount = 0;
+  };
+
+  Series.prototype = {
+    about: 'TODO (fill in the series subject/title)',
+    getTitle: function (post) {
+
+      // if (post.seriesIndex === 1) {
+      //   //console.log(post);
+      // }
+
+      return this.about + ' - Part ' + post.seriesIndex + ' - ' + (post.seriesTitle || '(TODO: fill in &quot;title&quot;)');
+    },
+    getPostIndex: function (post) {
+      var index = -1;
+
+      for (var i = 0; i &lt; this.posts.length; i++) {
+
+        if (this.posts[i].___postId === post.___postId) {
+          index = i;
+          break;
+        }
+      }
+
+      if (index &lt; 0) {
+        console.error({
+          post: post,
+          __postId: post.___postId,
+          series: this.posts.map(function (p) { return p.___postId; })
+        });
+        throw 'Could not find the post in the series with seriesId[' + post.seriesId + '] (see console.error above)';
+      }
+      //console.log(this.posts.length, index, post._title || post);
+      return index;
+    }
+  };
+
+  var site = new Site();
+
+  Site.prototype.homePaginator = new Paginator({
+    site: site,
+    posts: site._posts
+  });
+
+  site.Post = Post;
+  site.Series = Series;
+
+  return site;
+};</code></pre>
+        </div>
+      </div>
+    </div>
+    <footer class="footer">
+      <div class="container">
+        <p>Documentation generated with<a href="https://github.com/FGRibreau/doxx">Doxx</a> created by<a href="https://twitter.com/FGRibreau" data-show-count="false" class="twitter-follow-button">Francois-Guillaume Ribreau</a></p>
+      </div>
+    </footer>
+    <script src="http://platform.twitter.com/widgets.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="http://leaverou.github.com/prefixfree/prefixfree.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-transition.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-scrollspy.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-dropdown.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-collapse.js"></script>
+    <script src="http://getbootstrap.com/2.3.2/assets/js/bootstrap-affix.js"></script>
+    <script>
+      /**
+       * Prism: Lightweight, robust, elegant syntax highlighting
+       * MIT license http://www.opensource.org/licenses/mit-license.php/
+       * @author Lea Verou http://lea.verou.me
+       */(function(){var e=/\blang(?:uage)?-(?!\*)(\w+)\b/i,t=self.Prism={util:{type:function(e){return Object.prototype.toString.call(e).match(/\[object (\w+)\]/)[1]},clone:function(e){var n=t.util.type(e);switch(n){case"Object":var r={};for(var i in e)e.hasOwnProperty(i)&&(r[i]=t.util.clone(e[i]));return r;case"Array":return e.slice()}return e}},languages:{extend:function(e,n){var r=t.util.clone(t.languages[e]);for(var i in n)r[i]=n[i];return r},insertBefore:function(e,n,r,i){i=i||t.languages;var s=i[e],o={};for(var u in s)if(s.hasOwnProperty(u)){if(u==n)for(var a in r)r.hasOwnProperty(a)&&(o[a]=r[a]);o[u]=s[u]}return i[e]=o},DFS:function(e,n){for(var r in e){n.call(e,r,e[r]);t.util.type(e)==="Object"&&t.languages.DFS(e[r],n)}}},highlightAll:function(e,n){var r=document.querySelectorAll('code[class*="language-"], [class*="language-"] code, code[class*="lang-"], [class*="lang-"] code');for(var i=0,s;s=r[i++];)t.highlightElement(s,e===!0,n)},highlightElement:function(r,i,s){var o,u,a=r;while(a&&!e.test(a.className))a=a.parentNode;if(a){o=(a.className.match(e)||[,""])[1];u=t.languages[o]}if(!u)return;r.className=r.className.replace(e,"").replace(/\s+/g," ")+" language-"+o;a=r.parentNode;/pre/i.test(a.nodeName)&&(a.className=a.className.replace(e,"").replace(/\s+/g," ")+" language-"+o);var f=r.textContent;if(!f)return;f=f.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\u00a0/g," ");var l={element:r,language:o,grammar:u,code:f};t.hooks.run("before-highlight",l);if(i&&self.Worker){var c=new Worker(t.filename);c.onmessage=function(e){l.highlightedCode=n.stringify(JSON.parse(e.data));l.element.innerHTML=l.highlightedCode;s&&s.call(l.element);t.hooks.run("after-highlight",l)};c.postMessage(JSON.stringify({language:l.language,code:l.code}))}else{l.highlightedCode=t.highlight(l.code,l.grammar);l.element.innerHTML=l.highlightedCode;s&&s.call(r);t.hooks.run("after-highlight",l)}},highlight:function(e,r){return n.stringify(t.tokenize(e,r))},tokenize:function(e,n){var r=t.Token,i=[e],s=n.rest;if(s){for(var o in s)n[o]=s[o];delete n.rest}e:for(var o in n){if(!n.hasOwnProperty(o)||!n[o])continue;var u=n[o],a=u.inside,f=!!u.lookbehind||0;u=u.pattern||u;for(var l=0;l<i.length;l++){var c=i[l];if(i.length>e.length)break e;if(c instanceof r)continue;u.lastIndex=0;var h=u.exec(c);if(h){f&&(f=h[1].length);var p=h.index-1+f,h=h[0].slice(f),d=h.length,v=p+d,m=c.slice(0,p+1),g=c.slice(v+1),y=[l,1];m&&y.push(m);var b=new r(o,a?t.tokenize(h,a):h);y.push(b);g&&y.push(g);Array.prototype.splice.apply(i,y)}}}return i},hooks:{all:{},add:function(e,n){var r=t.hooks.all;r[e]=r[e]||[];r[e].push(n)},run:function(e,n){var r=t.hooks.all[e];if(!r||!r.length)return;for(var i=0,s;s=r[i++];)s(n)}}},n=t.Token=function(e,t){this.type=e;this.content=t};n.stringify=function(e){if(typeof e=="string")return e;if(Object.prototype.toString.call(e)=="[object Array]"){for(var r=0;r<e.length;r++)e[r]=n.stringify(e[r]);return e.join("")}var i={type:e.type,content:n.stringify(e.content),tag:"span",classes:["token",e.type],attributes:{}};i.type=="comment"&&(i.attributes.spellcheck="true");t.hooks.run("wrap",i);var s="";for(var o in i.attributes)s+=o+'="'+(i.attributes[o]||"")+'"';return"<"+i.tag+' class="'+i.classes.join(" ")+'" '+s+">"+i.content+"</"+i.tag+">"};if(!self.document){self.addEventListener("message",function(e){var n=JSON.parse(e.data),r=n.language,i=n.code;self.postMessage(JSON.stringify(t.tokenize(i,t.languages[r])));self.close()},!1);return}var r=document.getElementsByTagName("script");r=r[r.length-1];if(r){t.filename=r.src;document.addEventListener&&!r.hasAttribute("data-manual")&&document.addEventListener("DOMContentLoaded",t.highlightAll)}})();;
+      Prism.languages.markup={comment:/&lt;!--[\w\W]*?--(&gt;|&gt;)/g,prolog:/&lt;\?.+?\?&gt;/,doctype:/&lt;!DOCTYPE.+?&gt;/,cdata:/&lt;!\[CDATA\[[\w\W]+?]]&gt;/i,tag:{pattern:/&lt;\/?[\w:-]+\s*(?:\s+[\w:-]+(?:=(?:("|')(\\?[\w\W])*?\1|\w+))?\s*)*\/?&gt;/gi,inside:{tag:{pattern:/^&lt;\/?[\w:-]+/i,inside:{punctuation:/^&lt;\/?/,namespace:/^[\w-]+?:/}},"attr-value":{pattern:/=(?:('|")[\w\W]*?(\1)|[^\s>]+)/gi,inside:{punctuation:/=|&gt;|"/g}},punctuation:/\/?&gt;/g,"attr-name":{pattern:/[\w:-]+/g,inside:{namespace:/^[\w-]+?:/}}}},entity:/&amp;#?[\da-z]{1,8};/gi};Prism.hooks.add("wrap",function(e){e.type==="entity"&&(e.attributes.title=e.content.replace(/&amp;/,"&"))});;
+      Prism.languages.css={comment:/\/\*[\w\W]*?\*\//g,atrule:/@[\w-]+?(\s+[^;{]+)?(?=\s*{|\s*;)/gi,url:/url\((["']?).*?\1\)/gi,selector:/[^\{\}\s][^\{\}]*(?=\s*\{)/g,property:/(\b|\B)[a-z-]+(?=\s*:)/ig,string:/("|')(\\?.)*?\1/g,important:/\B!important\b/gi,ignore:/&(lt|gt|amp);/gi,punctuation:/[\{\};:]/g};Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{style:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/style(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)style[\w\W]*?(>|&gt;)|(&lt;|<)\/style(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.css}}});;
+      Prism.languages.clike={comment:{pattern:/(^|[^\\])(\/\*[\w\W]*?\*\/|\/\/.*?(\r?\n|$))/g,lookbehind:!0},string:/("|')(\\?.)*?\1/g,keyword:/\b(if|else|while|do|for|return|in|instanceof|function|new|try|catch|finally|null|break|continue)\b/g,"boolean":/\b(true|false)\b/g,number:/\b-?(0x)?\d*\.?[\da-f]+\b/g,operator:/[-+]{1,2}|!|=?&lt;|=?&gt;|={1,2}|(&amp;){1,2}|\|?\||\?|\*|\//g,ignore:/&(lt|gt|amp);/gi,punctuation:/[{}[\];(),.:]/g};;
+      Prism.languages.javascript=Prism.languages.extend("clike",{keyword:/\b(var|let|if|else|while|do|for|return|in|instanceof|function|new|with|typeof|try|catch|finally|null|break|continue)\b/g,number:/\b(-?(0x)?\d*\.?[\da-f]+|NaN|-?Infinity)\b/g});Prism.languages.insertBefore("javascript","keyword",{regex:{pattern:/(^|[^/])\/(?!\/)(\[.+?]|\\.|[^/\r\n])+\/[gim]{0,3}(?=\s*($|[\r\n,.;})]))/g,lookbehind:!0}});Prism.languages.markup&&Prism.languages.insertBefore("markup","tag",{script:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)[\w\W]*?(&lt;|<)\/script(>|&gt;)/ig,inside:{tag:{pattern:/(&lt;|<)script[\w\W]*?(>|&gt;)|(&lt;|<)\/script(>|&gt;)/ig,inside:Prism.languages.markup.tag.inside},rest:Prism.languages.javascript}}});;
+      
+    </script>
+    <!-- App js-->
+    <script>
+      $(function(){
+        var $window = $(window);
+        $('.scrollspy .nav').affix({
+          offset: {
+            top: function () { return $window.width() <= 980 ? 480 : 400 }
+          , bottom: 50
+          }
+        });
+      })
+    </script>
+  </body>
+</html>
