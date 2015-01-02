@@ -82,7 +82,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="../../index.html">Main</a></li>
-            <li class="active"><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
+            <li><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
             <li><a href="../../bin/commands/lint.js.html">bin/commands/lint.js</a></li>
             <li><a href="../../bin/commands/newToggleCommand.js.html">bin/commands/newToggleCommand.js</a></li>
             <li><a href="../../bin/commands/post.js.html">bin/commands/post.js</a></li>
@@ -97,7 +97,7 @@
             <li><a href="../../lib/App/Site.js.html">lib/App/Site.js</a></li>
             <li><a href="../../lib/plugins/alias.js.html">lib/plugins/alias.js</a></li>
             <li><a href="../../lib/plugins/description.js.html">lib/plugins/description.js</a></li>
-            <li><a href="../../lib/plugins/emoji.js.html">lib/plugins/emoji.js</a></li>
+            <li class="active"><a href="../../lib/plugins/emoji.js.html">lib/plugins/emoji.js</a></li>
             <li><a href="../../lib/plugins/gist.js.html">lib/plugins/gist.js</a></li>
             <li><a href="../../lib/plugins/handlebars.js.html">lib/plugins/handlebars.js</a></li>
             <li><a href="../../lib/plugins/liquid.js.html">lib/plugins/liquid.js</a></li>
@@ -114,153 +114,86 @@
           </ul>
           <div class="scrollspy">
             <ul class="nav nav-list bs-docs-sidenav affix-top">
+              <li><a href="#exports"><i class="alert alert-info"></i><span>exports</span></a>
+              </li>
             </ul>
           </div>
         </div>
         <div class="span9">
-          <div class="description"> </div>
-          <pre><code class="language-javascript">'use strict';
-var path = require('path');
-var fs = require('node-fs');
-var log = require('../../lib/util/log.js');
-var reportError = require('../util/reportError');
-var gulp = require('gulp');
-var exec = require('child_process').exec;
-var Q = require('q');
+          <section id="exports">
+            <h1>exports</h1>
+            <h5 class="subheader"></h5>
+            <p>
+              <div class="label label-info radius ctx-type">method</div><span>module.exports()</span>
+            </p>
+          </section>
+          <div class="description"><p>The <code>emoji</code> toggle/gulp plugin looks at the vinyl <code>file</code> contents and will apply token replacement necessary to render github emoji in a post.</p><h1>Examples</h1>
+<pre><code>:warning:
+</code></pre><h1><code>gulpfile.js</code> usage:</h1>
+<pre><code>var tog = require(&quot;toggle&quot;);
 
-function system(cmd) {
-  var deferred = Q.defer();
-  log('system: ' + cmd);
-  exec(cmd, function (error, stdout, stderr) {
+...
+.pipe(tog.emoji())
+</code></pre> </div>
+          <pre><code class="language-javascript">module.exports = function () {
+  var through = require('through2');
+  var togError = require('./togErrors');
 
-    if ((stdout || '').indexOf('nothing to commit, working directory clean') &gt;= 0) {
-      error = null;
-    }
+  // Creating a stream through which each file will pass
+  return through.obj(function (file, enc, callback) {
 
-    if ((stderr || '').indexOf('remote origin already exists') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('Couldn\'t find remote ref master') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('ambiguous argument \'origin/master\': unknown revision or path not in the working tree.') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('pathspec \'\' did not match any files') &gt;= 0) {
-      error = null;
-    }
+    var contents;
 
-    if (error) {
-      deferred.reject(new Error(error));
-    } else {
-      deferred.resolve();
-    }
-  });
+    if (file.isBuffer()) {
+      contents = file.contents.toString();
+      var token;
+      var id;
 
-  return deferred.promise;
-}
+      var reg = /:([\w+-]+):/g;
+      var match = reg.exec(contents);
+      while (match !== null) {
+        token = match[0];
+        id = match[1];
 
-module.exports = function (program, env) {
-
-  /*
-   * TODO: document what env has that may be useful to a plugin develoepr.
-   *
-   * toggle leverages https://www.npmjs.org/package/commander for it's commands
-   * You can review it's API https://github.com/visionmedia/commander.js to extend toggle with your own commands.
-   *
-   */
-
-  program
-    .command('deploy')
-    .description('TODO: fill in command description')
-    .option('-p, --nopush', 'Do everything except push to the remote')
-    .option('-c, --nocommit', 'Do everything except commit &amp; push to the remote')
-    .action(function (options) {
-
-      var nocommit = options.nocommit;
-      var nopush = options.nopush || nocommit;
-
-      var deployDir = path.resolve(env.toggleConfig.paths.deploy);
-      var sourceDir = env.toggleConfig.paths.source;
-      var deployType = env.toggleConfig.deployType;
-      var deployGit = env.toggleConfig.deployGitUrl;
-
-      if (deployType === 'githubpages') {
-
-        // var returnError = function () {
-        //     process.chdir(cwd);
-        // };
-
-        var copyFiles = function () {
-          var deferred = Q.defer();
-
-          gulp.src(path.join(sourceDir, '**/*'))
-            .pipe(gulp.dest(deployDir))
-            .on('error', function (error) {
-              deferred.reject(new Error(error));
-            })
-            .on('end', function () {
-              deferred.resolve();
-            });
-
-          return deferred.promise;
-        };
-
-        // setup deploy folder.
-        if (!fs.existsSync(deployDir)) {
-          log('Deploy directory [' + deployDir + '] did not exist. Creating it...');
-          fs.mkdirSync(deployDir, parseInt(777, 8), true);
+        var emoji = gemoji.name[id];
+        if (emoji) {
+          console.log(emoji.emoji.toString(16));
+          var code = emoji.emoji.charCodeAt(0);
+          var codeHex = code.toString(16).toLowerCase();
+          //codeHex += (&quot;000&quot; + codeHex).slice(-4);
+          console.log(codeHex);
+          console.log(&quot;id: &quot;, id, &quot; replacement: &quot;, emoji);
+          var html = '&lt;img class=&quot;emoji&quot; title=&quot;' + id + '&quot; alt=&quot;' + id + '&quot; src=&quot;https://assets.github.com/images/icons/emoji/unicode/' + codeHex + '.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot;&gt;';
+          contents = contents.split(token).join(html);
         }
 
-        var cwd = process.cwd();
-        process.chdir(deployDir);
-
-        // setup git.
-        var promise;
-        if (!fs.existsSync(path.join(deployDir, '.git'))) {
-          promise = system('git init');
-        } else {
-          promise = Q.resolve();
-        }
-
-        promise
-          .then(function () {
-            return system('git remote add origin ' + deployGit);
-          }).then(function () {
-            return system('git fetch origin');
-          }).then(function () {
-            return system('git reset origin/master --hard');
-          }).then(function () {
-            return system('git rm --cached -r .');
-          }).then(function () {
-            return system('git clean -fd');
-          }).then(function () {
-            process.chdir(cwd);
-            return copyFiles();
-          }).then(function () {
-            process.chdir(deployDir);
-            return system('git add -A');
-          }).then(function () {
-            if (nocommit) {
-              return Q.resolve();
-            }
-            return system('git commit -m \'Updated site: ' + (new Date()).toUTCString() + '\'');
-          }).then(function () {
-            if (nopush) {
-              return Q.resolve();
-            }
-            return system('git push origin master');
-          }).then(function () {
-            process.chdir(cwd);
-          }).fail(function (error) {
-            process.chdir(cwd);
-            reportError(error);
-          });
-
-      } else {
-        throw 'Unknown deploy type [' + deployType + ']';
+        match = reg.exec(contents);
       }
-    });
+      //
+      // reg = /\[gist id=(.*)\]/g;
+      // match = reg.exec(contents);
+      // while (match !== null) {
+      //   gistToken = match[0];
+      //   id = match[1];
+      //
+      //   gistUrl = '&lt;script src=&quot;https://gist.github.com/' + id + '.js&quot;&gt;&lt;/script&gt;';
+      //
+      //   contents = contents.split(gistToken).join(gistUrl);
+      //   match = reg.exec(contents);
+      // }
+
+      //file.togMetadata.contents = contents;
+      file.contents = new Buffer(contents);
+    }
+
+    if (file.isStream()) {
+      this.emit('error', togError.noStreamSupport(PLUGIN_NAME));
+      return callback();
+    }
+
+    this.push(file);
+    return callback();
+  });
 };</code></pre>
         </div>
       </div>

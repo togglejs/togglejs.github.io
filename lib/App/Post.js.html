@@ -82,7 +82,7 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="../../index.html">Main</a></li>
-            <li class="active"><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
+            <li><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
             <li><a href="../../bin/commands/lint.js.html">bin/commands/lint.js</a></li>
             <li><a href="../../bin/commands/newToggleCommand.js.html">bin/commands/newToggleCommand.js</a></li>
             <li><a href="../../bin/commands/post.js.html">bin/commands/post.js</a></li>
@@ -92,7 +92,7 @@
             <li><a href="../../gulpfile.js.html">gulpfile.js</a></li>
             <li><a href="../../lib/App/Page.js.html">lib/App/Page.js</a></li>
             <li><a href="../../lib/App/Paginator.js.html">lib/App/Paginator.js</a></li>
-            <li><a href="../../lib/App/Post.js.html">lib/App/Post.js</a></li>
+            <li class="active"><a href="../../lib/App/Post.js.html">lib/App/Post.js</a></li>
             <li><a href="../../lib/App/Series.js.html">lib/App/Series.js</a></li>
             <li><a href="../../lib/App/Site.js.html">lib/App/Site.js</a></li>
             <li><a href="../../lib/plugins/alias.js.html">lib/plugins/alias.js</a></li>
@@ -120,147 +120,172 @@
         <div class="span9">
           <div class="description"> </div>
           <pre><code class="language-javascript">'use strict';
-var path = require('path');
-var fs = require('node-fs');
-var log = require('../../lib/util/log.js');
-var reportError = require('../util/reportError');
-var gulp = require('gulp');
-var exec = require('child_process').exec;
-var Q = require('q');
 
-function system(cmd) {
-  var deferred = Q.defer();
-  log('system: ' + cmd);
-  exec(cmd, function (error, stdout, stderr) {
+var wordizeSpecialChars = require('../util/wordizeSpecialChars');
+var _ = require('lodash');
 
-    if ((stdout || '').indexOf('nothing to commit, working directory clean') &gt;= 0) {
-      error = null;
-    }
+module.exports = function (site, opts) {
+  if (!site) {
+    throw 'first parameter {site} missing (required)';
+  }
 
-    if ((stderr || '').indexOf('remote origin already exists') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('Couldn\'t find remote ref master') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('ambiguous argument \'origin/master\': unknown revision or path not in the working tree.') &gt;= 0) {
-      error = null;
-    }
-    if ((stderr || '').indexOf('pathspec \'\' did not match any files') &gt;= 0) {
-      error = null;
-    }
+  var Post = function () { };
 
-    if (error) {
-      deferred.reject(new Error(error));
-    } else {
-      deferred.resolve();
-    }
+  Post.prototype = _.create(site, {
+    index: false,
+    comments: true,
+    titlecase: false,
+    page_header: true,
+    page_meta: true,
+    sharing: true
   });
 
-  return deferred.promise;
-}
+  Object.defineProperty(Post.prototype, 'isPublished', {
+    get: function () {
+      // detect explicit 'published===false' - all others are true (even undefined/null)
+      return !(this.published === false); //jshint ignore:line
+    },
+    enumerable: true,
+    configurable: true
+  });
 
-module.exports = function (program, env) {
+  Post.prototype.isSeries = function () {
+    return !!this.seriesId;
+  };
+  ////// TODO: recall what enumerable/configurable do...
+  //Object.defineProperty(Post.prototype, 'isSeries', {
+  //  get: function () {
+  //    return this._seriesId
+  //  },
+  //  set: function (value) { this._seriesId = (value || '').trim(); },
+  //  enumerable: true,
+  //  configurable: true
+  //});
 
-  /*
-   * TODO: document what env has that may be useful to a plugin develoepr.
-   *
-   * toggle leverages https://www.npmjs.org/package/commander for it's commands
-   * You can review it's API https://github.com/visionmedia/commander.js to extend toggle with your own commands.
-   *
-   */
+  //// TODO: recall what enumerable/configurable do...
+  Object.defineProperty(Post.prototype, 'seriesId', {
+    get: function () {
+      return this._seriesId;
+    },
+    set: function (value) { this._seriesId = (value || '').trim(); },
+    enumerable: true,
+    configurable: true
+  });
 
-  program
-    .command('deploy')
-    .description('TODO: fill in command description')
-    .option('-p, --nopush', 'Do everything except push to the remote')
-    .option('-c, --nocommit', 'Do everything except commit &amp; push to the remote')
-    .action(function (options) {
-
-      var nocommit = options.nocommit;
-      var nopush = options.nopush || nocommit;
-
-      var deployDir = path.resolve(env.toggleConfig.paths.deploy);
-      var sourceDir = env.toggleConfig.paths.source;
-      var deployType = env.toggleConfig.deployType;
-      var deployGit = env.toggleConfig.deployGitUrl;
-
-      if (deployType === 'githubpages') {
-
-        // var returnError = function () {
-        //     process.chdir(cwd);
-        // };
-
-        var copyFiles = function () {
-          var deferred = Q.defer();
-
-          gulp.src(path.join(sourceDir, '**/*'))
-            .pipe(gulp.dest(deployDir))
-            .on('error', function (error) {
-              deferred.reject(new Error(error));
-            })
-            .on('end', function () {
-              deferred.resolve();
-            });
-
-          return deferred.promise;
-        };
-
-        // setup deploy folder.
-        if (!fs.existsSync(deployDir)) {
-          log('Deploy directory [' + deployDir + '] did not exist. Creating it...');
-          fs.mkdirSync(deployDir, parseInt(777, 8), true);
-        }
-
-        var cwd = process.cwd();
-        process.chdir(deployDir);
-
-        // setup git.
-        var promise;
-        if (!fs.existsSync(path.join(deployDir, '.git'))) {
-          promise = system('git init');
-        } else {
-          promise = Q.resolve();
-        }
-
-        promise
-          .then(function () {
-            return system('git remote add origin ' + deployGit);
-          }).then(function () {
-            return system('git fetch origin');
-          }).then(function () {
-            return system('git reset origin/master --hard');
-          }).then(function () {
-            return system('git rm --cached -r .');
-          }).then(function () {
-            return system('git clean -fd');
-          }).then(function () {
-            process.chdir(cwd);
-            return copyFiles();
-          }).then(function () {
-            process.chdir(deployDir);
-            return system('git add -A');
-          }).then(function () {
-            if (nocommit) {
-              return Q.resolve();
-            }
-            return system('git commit -m \'Updated site: ' + (new Date()).toUTCString() + '\'');
-          }).then(function () {
-            if (nopush) {
-              return Q.resolve();
-            }
-            return system('git push origin master');
-          }).then(function () {
-            process.chdir(cwd);
-          }).fail(function (error) {
-            process.chdir(cwd);
-            reportError(error);
-          });
-
-      } else {
-        throw 'Unknown deploy type [' + deployType + ']';
+  //// TODO: recall what enumerable/configurable do...
+  Object.defineProperty(Post.prototype, 'seriesIndex', {
+    get: function () {
+      if (this.series) {
+        return this.series.getPostIndex(this) + 1;
       }
-    });
+      return null;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  // TODO: recall what enumerable/configurable do...
+  Object.defineProperty(Post.prototype, 'hasCategories', {
+    get: function () {
+      return this.categories &amp;&amp; this.categories.length;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Post.prototype, 'showComments', {
+    get: function () {
+
+      if (this.comments === undefined) {
+        return true;
+      }
+      return !!this.comments;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Post.prototype, 'categories', {
+    get: function () {
+      return this._categories || [];
+    },
+    set: function (values) {
+      if (Array.isArray(values)) {
+
+        var slugFormat = this.categoriesSlugFormat;
+
+        if (!slugFormat) {
+          throw 'site.categorySlugFormat is not defined';
+        }
+
+        this._categories = values.map(function (item) {
+
+          var safeCategoryName = wordizeSpecialChars(item);
+
+          return {
+            name: item,
+            url: encodeURI(slugFormat.replace('{category}', safeCategoryName)).toLowerCase(),
+            file: slugFormat.replace('{category}', safeCategoryName).toLowerCase()
+          };
+        }.bind(this));
+      } else {
+        // we can ignore null/undefined - but warn with an error for other objects?
+        if (values !== null &amp;&amp; values !== undefined) {
+          console.error('ERROR: categories value [' + JSON.stringify(values) + '] was not an array. Categories expects an array of values.');
+        }
+      }
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Post.prototype, 'previous', {
+    get: function () {
+      var index = (this.posts.indexOf(this));
+      ++index;
+      var previousPost = this.posts[index];
+      return previousPost;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Post.prototype, 'next', {
+    get: function () {
+      var index = (this.posts.indexOf(this));
+      --index;
+      var nextPost = this.posts[index];
+      return nextPost;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  Object.defineProperty(Post.prototype, 'title', {
+    get: function () {
+      if (this.isSeries()) {
+
+        //console.log('seriesList:', this.seriesList);
+        //console.log('seriesId:', this.seriesId);
+
+        //console.log((new Error()).stack);
+        var series = this.seriesList[this.seriesId];
+        if (!series) {
+          console.log(this.seriesList);
+          throw 'cannot find series object with seriesId[' + this.seriesId + ']';
+        }
+        return series.getTitle(this);
+      }
+      return this._title;
+    },
+    set: function (value) {
+      this._title = value;
+    },
+    enumerable: true,
+    configurable: true
+  });
+
+  return _.create(Post.prototype, opts);
 };</code></pre>
         </div>
       </div>
