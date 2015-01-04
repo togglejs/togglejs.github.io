@@ -82,10 +82,12 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="../../index.html">Main</a></li>
+            <li><a href="../../bin/commands/completion.js.html">bin/commands/completion.js</a></li>
             <li><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
             <li><a href="../../bin/commands/lint.js.html">bin/commands/lint.js</a></li>
             <li><a href="../../bin/commands/newToggleCommand.js.html">bin/commands/newToggleCommand.js</a></li>
             <li><a href="../../bin/commands/post.js.html">bin/commands/post.js</a></li>
+            <li><a href="../../bin/commands/series.js.html">bin/commands/series.js</a></li>
             <li><a href="../../bin/index.js.html">bin/index.js</a></li>
             <li><a href="../../bin/util/reportError.js.html">bin/util/reportError.js</a></li>
             <li><a href="../../bin/util/sampleCommand.js.html">bin/util/sampleCommand.js</a></li>
@@ -128,7 +130,7 @@
             </p>
           </section>
           <div class="description"><p>The <code>gist</code> toggle/gulp plugin looks at the vinyl <code>file</code> contents and will apply token replacement necessary to render gists in a post.</p><p>This <code>gist</code> plugin supports following formats:</p><h1>Primary token:</h1>
-<pre><code>{{ gist id=FFFFFFFFFF [&quot;&lt;file&gt;&quot;]}}
+<pre><code>{{ gist FFFFFFFFFF [&quot;&lt;file&gt;&quot;]}}
 </code></pre><p>In the above, the <code>[&quot;&lt;file&gt;&quot;]</code> is an optional parameter and you need to leave off the <code>[]</code> but include the <code>&quot;&quot;</code></p><h1>Deprecated token:</h1>
 <pre><code>[gist id=FFFFFFFFFF]
 </code></pre><h1><code>gulpfile.js</code> usage:</h1>
@@ -155,6 +157,7 @@
 
       var reg = /{{(.?)gist (.*) (&quot;|&amp;quot;)(.*)(&quot;|&amp;quot;).?}}/g;
       var match = reg.exec(contents);
+
       while (match !== null) {
         gistToken = match[0];
         id = match[2];

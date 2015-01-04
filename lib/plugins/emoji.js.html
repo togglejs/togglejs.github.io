@@ -82,10 +82,12 @@
         <div class="span3 bs-docs-sidebar">
           <ul class="nav nav-list bs-docs-sidenav affix-top">
             <li><a href="../../index.html">Main</a></li>
+            <li><a href="../../bin/commands/completion.js.html">bin/commands/completion.js</a></li>
             <li><a href="../../bin/commands/deploy.js.html">bin/commands/deploy.js</a></li>
             <li><a href="../../bin/commands/lint.js.html">bin/commands/lint.js</a></li>
             <li><a href="../../bin/commands/newToggleCommand.js.html">bin/commands/newToggleCommand.js</a></li>
             <li><a href="../../bin/commands/post.js.html">bin/commands/post.js</a></li>
+            <li><a href="../../bin/commands/series.js.html">bin/commands/series.js</a></li>
             <li><a href="../../bin/index.js.html">bin/index.js</a></li>
             <li><a href="../../bin/util/reportError.js.html">bin/util/reportError.js</a></li>
             <li><a href="../../bin/util/sampleCommand.js.html">bin/util/sampleCommand.js</a></li>
@@ -157,12 +159,12 @@
 
         var emoji = gemoji.name[id];
         if (emoji) {
-          console.log(emoji.emoji.toString(16));
+          // console.log(emoji.emoji.toString(16));
           var code = emoji.emoji.charCodeAt(0);
           var codeHex = code.toString(16).toLowerCase();
           //codeHex += (&quot;000&quot; + codeHex).slice(-4);
-          console.log(codeHex);
-          console.log(&quot;id: &quot;, id, &quot; replacement: &quot;, emoji);
+          // console.log(codeHex);
+          // console.log('id: ', id, ' replacement: ', emoji);
           var html = '&lt;img class=&quot;emoji&quot; title=&quot;' + id + '&quot; alt=&quot;' + id + '&quot; src=&quot;https://assets.github.com/images/icons/emoji/unicode/' + codeHex + '.png&quot; height=&quot;20&quot; width=&quot;20&quot; align=&quot;absmiddle&quot;&gt;';
           contents = contents.split(token).join(html);
         }
